@@ -26,23 +26,19 @@ struct TypeCellule{
 int main()
 
 {
-    TypeListe ptr3=NULL, ptr2=NULL, ptr1=NULL;
-    ptr3=malloc(sizeof(TypeCellule));
-    if (ptr3==NULL)exit(1);
-    strcpy(ptr3->coucou,"Zoé");
-    ptr3->suivant=NULL;
-    ptr3->nombre=13;
+    TypeListe tete=NULL, ptr2=NULL, ptr1=NULL;
 
-//printf("char : %d octets\n", sizeof(TypeListe));
-    /*int coucou;
-    coucou=sizeof(TypeCellule);
-    printf(coucou);
-    ;
+    tete=(TypeListe)malloc(sizeof(TypeCellule));
 
+    if (tete==NULL)exit(1);
 
+    strcpy(tete->coucou,"Zoé");
+    tete->suivant=NULL;
+    tete->nombre=13;
 
-    printf("Coucou");
-    TypeCellule cellule1, cellule2, cellule3;
+    free(tete);
+
+    /*TypeCellule cellule1, cellule2, cellule3;
     strcpy(cellule3.nom,"Zoe");
     cellule3.suivant=NULL;
     strcpy(cellule2.nom,"Marie");
