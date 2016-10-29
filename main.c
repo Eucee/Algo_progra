@@ -23,31 +23,50 @@ struct TypeCell{
     TypeCell *suivant;
 };
 
+void affichier_erreur(){
+        printf("Erreur d'allocation memoire");
+        return;
+}
+
 void inserer_en_tete(TypePtrListe *adr_tete, int val)
 {
     // Creation du nouvel element
-    TypeListe p_nouv = (TypeCell*)malloc(sizeof(TypeCell));
-    p_nouv->info = val;
+    TypeListe p_nouv;
+
     if (liste == NULL || p_nouv == NULL)
     {
-        return(1);
+        affichier_erreur();
     }
 
     // Insertion de l'element au debut de la liste
+    p_nouv = (TypeCell*)malloc(sizeof(TypeCell))
+    p_nouv->info = val;
     p_nouv->suivant = *adr_tete;
     *adr_tete = p_nouv;
 }
 
 
-void insérer_liste_pos_k(TypePtrListe *adr_tete, int val, int pos){
+void inserer_pos_k(TypePtrListe *adr_tete, int val, int pos){
     TypePtrListe p_prec=NULL, p=*adr_tete;
     TypeListe p_nouv = (TypeCell*)malloc(sizeof(TypeCell));
     p_nouv->info = val;
     int i=1;
     while(p!=NULL && i<k){
+        prec=p;
+        p=p->suivant;
+        i++;
+    }
+    if (p==NULL){
+        if(k!=i){
+            free(p_nouv);
+            affichier_erreur();
+        }
+        if(k==1){
+            inserer_en_tete(adr_tete,val);
+        return;
+        }
 
     }
-    if (p==)
 }
 
 int main()
