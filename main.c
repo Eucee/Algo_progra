@@ -2,45 +2,51 @@
 #include <stdlib.h>
 #include <string.h>
 
-//Alias signature
-typedef struct TypeChaine80 TypeChaine80;
-typedef struct TypeCell* TypePtrListe;
-typedef struct TypeCell TypeCell;
+/**************************************DEFINITION******************************************/
 
-//Alias corps
+//Alias
+typedef struct TypeCell* TypePtrListe;
+
+//Fonction
+void afficher_erreur;
+void inserer_en_tete(TypePtrListe *adr_tete, int val);
+void inserer_pos_k(TypePtrListe *adr_tete, int val, int pos);
+
+
+/**************************************FONCTIONS**************************************/
+
+//Alias
 struct TypeChaine80{
     char chaineCaratere[80];
 };
 
-/*struct TypePtrListe{
-    TypeCell *tete;
-};*/
-
 struct TypeCell{
-    /*TypeChaine80 nom;
-    char nom2[80];*/
     int info;
     TypeCell *suiv;
 };
 
-void affichier_erreur(){
+
+
+//Fonctions
+
+void afficher_erreur(){
         printf("Erreur d'allocation memoire");
 }
 
+
 void inserer_en_tete(TypePtrListe *adr_tete, int val)
 {
-    // Creation du nouvel element
-    TypeListe p_nouv;
-
+    TypePtrListe p_nouv;
     if (liste == NULL || p_nouv == NULL)
     {
-        affichier_erreur();
+        afficher_erreur();
         return;
     }
 
-    // Insertion de l'element au debut de la liste
+    // creation du nouvel element
     p_nouv = (TypeCell*)malloc(sizeof(TypeCell))
     p_nouv->info = val;
+    // insertion de l'element au debut de la liste
     p_nouv->suiv = *adr_tete;
     *adr_tete = p_nouv;
 }
@@ -57,7 +63,7 @@ void inserer_pos_k(TypePtrListe *adr_tete, int val, int pos){
     }
     if (p==NULL){
         if(k!=i){
-            affichier_erreur();
+            afficher_erreur();
             return;
         }//sinon k==i, insertion en debut de liste
         p_nouv = (TypeCell*)malloc(sizeof(TypeCell));
@@ -75,26 +81,12 @@ void inserer_pos_k(TypePtrListe *adr_tete, int val, int pos){
     inserer_en_tete(&prec->suiv,val);
 }
 
+
+
+/****************************************CORPS****************************************/
+
 int main()
 {
-    TypeListe tete=NULL, ptr2=NULL, ptr1=NULL;
-
-    tete=(TypeListe)malloc(sizeof(TypeCell));
-
-    if (tete==NULL)exit(1);
-
-    strcpy(tete->coucou,"Zoé");
-    tete->suiv=NULL;
-    tete->nombre=0;
-
-    free(tete);
-
-    /*TypeCell cellule1, cellule2, cellule3;
-    strcpy(cellule3.nom,"Zoe");
-    cellule3.suiv=NULL;
-    strcpy(cellule2.nom,"Marie");
-    cellule2.suiv=&cellule3;*/
-    cellule2.suiv=&cellule3;*/
     return 0;
 }
 
