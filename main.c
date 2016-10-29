@@ -52,7 +52,7 @@ void afficher_erreur(char typeErreur){
 
 
 TypePtrListe *creation_elem(int val){
-TypePtrListe cell = (TypeCell*) malloc(sizeof(TypeCell));
+    TypePtrListe cell = (TypeCell*) malloc(sizeof(TypeCell));
     cell->info = val;
 
     if(cell == NULL){
@@ -83,9 +83,9 @@ void afficherListe(TypePtrListe *adr_liste){
 
 void inserer_en_tete(TypePtrListe *adr_liste, int val){
 
-    // creation du nouvel element
-    TypePtrListe p_nouv = (TypeCell*) malloc(sizeof(TypeCell));
-    p_nouv -> info = val;
+        // creation du nouvel element
+    TypePtrListe p_nouv;
+    p_nouv=creation_elem(val);
     // insertion de l'element au debut de la liste
     p_nouv -> suiv = *adr_liste;
     *adr_liste = p_nouv;
@@ -135,8 +135,8 @@ void supprimer_en_tete(TypePtrListe *adr_liste){
         return;
     }
 
-    TypePtrListe *p = *adr_liste;
-    *adr_liste = p->suivant;
+    TypePtrListe p = *adr_liste;
+    *adr_liste = p->suiv;
     free(p);
 }
 
@@ -144,7 +144,7 @@ void supprimer_en_tete(TypePtrListe *adr_liste){
 
 int main()
 {
-    TypePtrListe *maListe = malloc(sizeof(TypePtrListe));
+    TypePtrListe *maListe = (TypePtrListe*) malloc(sizeof(TypePtrListe));
 
     inserer_en_tete(maListe, 4);
     inserr_en_tete(maListe, 8);
