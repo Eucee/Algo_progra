@@ -4,8 +4,8 @@
 
 //Alias signature
 typedef struct TypeChaine80 TypeChaine80;
-typedef struct TypeCellule* TypePtrListe;
-typedef struct TypeCellule TypeCellule;
+typedef struct TypeCell* TypePtrListe;
+typedef struct TypeCell TypeCell;
 
 //Alias corps
 struct TypeChaine80{
@@ -13,53 +13,40 @@ struct TypeChaine80{
 };
 
 /*struct TypePtrListe{
-    TypeCellule *tete;
+    TypeCell *tete;
 };*/
 
-struct TypeCellule{
+struct TypeCell{
     /*TypeChaine80 nom;
     char nom2[80];*/
     int info;
-    TypeCellule *suivant;
+    TypeCell *suivant;
 };
 
-TypePtrListe *initialisation()
+void inserer_en_tete(TypePtrListe *adr_tete, int val)
 {
-    TypePtrListe *tete = malloc(sizeof(*TypePtrListe));
-    TypeCellule *cellule1 = malloc(sizeof(*TypeCellule));
-
-    if (tete == NULL || cellule1 == NULL)
+    // Creation du nouvel element
+    TypeListe p_nouv = (TypeCell*)malloc(sizeof(TypeCell));
+    p_nouv->info = val;
+    if (liste == NULL || p_nouv == NULL)
     {
         return(1);
     }
-    //strcpy(cellule1->nom2,"");
-    cellule1->info = 0;
-    cellule1->suivant = NULL;
-    tete = cellule1;
 
-    return tete;
-}
-
-void inserer_en_tete(TypePtrListe *tete, int info)
-{
-    /* Création du nouvel élément */
-    Element *nouveau = malloc(sizeof(*nouveau));
-    if (liste == NULL || nouveau == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-    nouveau->nombre = nvNombre;
-
-    /* Insertion de l'élément au début de la liste */
-    nouveau->suivant = liste->premier;
-    liste->premier = nouveau;
+    // Insertion de l'element au debut de la liste
+    p_nouv->suivant = *adr_tete;
+    *adr_tete = p_nouv;
 }
 
 
-void insérer_liste_pos_k(TypeListe, info, position){
-    TypePtrListe p_prec=NULL, p=, p_nouv;
+void insérer_liste_pos_k(TypePtrListe *adr_tete, int val, int pos){
+    TypePtrListe p_prec=NULL, p=*adr_tete;
+    TypeListe p_nouv = (TypeCell*)malloc(sizeof(TypeCell));
+    p_nouv->info = val;
     int i=1;
+    while(p!=NULL && i<k){
 
+    }
     if (p==)
 }
 
@@ -67,7 +54,7 @@ int main()
 {
     TypeListe tete=NULL, ptr2=NULL, ptr1=NULL;
 
-    tete=(TypeListe)malloc(sizeof(TypeCellule));
+    tete=(TypeListe)malloc(sizeof(TypeCell));
 
     if (tete==NULL)exit(1);
 
@@ -77,7 +64,7 @@ int main()
 
     free(tete);
 
-    /*TypeCellule cellule1, cellule2, cellule3;
+    /*TypeCell cellule1, cellule2, cellule3;
     strcpy(cellule3.nom,"Zoe");
     cellule3.suivant=NULL;
     strcpy(cellule2.nom,"Marie");
