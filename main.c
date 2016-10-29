@@ -6,13 +6,15 @@
 
 //Alias
 typedef struct TypeCell* TypePtrListe;
+typedef struct TypeCell TypeCell;
 
 //Fonction
-void afficher_erreur();
+void afficher_erreur(char typeErreur);
 TypePtrListe *creation_elem(int val);
-void afficherListe(TypePtrListe *adr_tete);
-void inserer_en_tete(TypePtrListe *adr_tete, int val);
-void inserer_pos_k(TypePtrListe *adr_tete, int val, int pos);
+void afficherListe(TypePtrListe *adr_liste);
+void inserer_en_tete(TypePtrListe *adr_liste, int val);
+void inserer_pos_k(TypePtrListe *adr_liste, int val, int pos);
+void supprimer_en_tete(TypePtrListe *adr_liste);
 
 
 /**************************************FONCTIONS**************************************/
@@ -49,20 +51,26 @@ void afficher_erreur(char typeErreur){
 }
 
 
-creation_elem(int val){
-TypePtrListe *elem = (TypeCell*) malloc (sizeof(TypeCell));
-    elem -> info = val;
-    return elem;
+TypePtrListe *creation_elem(int val){
+TypePtrListe cell = (TypeCell*) malloc(sizeof(TypeCell));
+    cell->info = val;
+
+    if(cell == NULL){
+    afficher_erreur('M');
+    return;
+    }
+
+    return cell;
 }
 
 
-void afficherListe(TypePtrListe *adr_tete){
-    if (adr_tete == NULL)
+void afficherListe(TypePtrListe *adr_liste){
+    if (adr_liste == NULL)
     {
         afficher_erreur('L');
         return;
     }
-    TypePtrListe p = *adr_tete;
+    TypePtrListe p = *adr_liste;
 
     while (p != NULL)
     {
@@ -73,34 +81,27 @@ void afficherListe(TypePtrListe *adr_tete){
 }
 
 
-void inserer_en_tete(TypePtrListe *adr_tete, int val){
-
-    //verification d'existence de liste
-    if (adr_tete == NULL || p_nouv == NULL)
-    {
-        afficher_erreur('M');
-        return;
-    }
+void inserer_en_tete(TypePtrListe *adr_liste, int val){
 
     // creation du nouvel element
-    TypePtrListe p_nouv = (TypeCell*) malloc(sizeof(TypeCell))
+    TypePtrListe p_nouv = (TypeCell*) malloc(sizeof(TypeCell));
     p_nouv -> info = val;
     // insertion de l'element au debut de la liste
-    p_nouv -> suiv = *adr_tete;
-    *adr_tete = p_nouv;
+    p_nouv -> suiv = *adr_liste;
+    *adr_liste = p_nouv;
 }
 
 
-void inserer_pos_k(TypePtrListe *adr_tete, int val, int pos){
+void inserer_pos_k(TypePtrListe *adr_liste, int val, int pos){
 
     //verification d'existence de liste
-    if (adr_tete == NULL || p_nouv == NULL)
+    if (adr_liste == NULL || p_nouv == NULL)
     {
-        afficher_erreur('M');
+        afficher_erreur('L');
         return;
     }
 
-    TypePtrListe prec = NULL, p = *adr_tete;
+    TypePtrListe prec = NULL, p = *adr_liste, p_nouv;
     int i = 1;
 
     while(p != NULL && i < k){
@@ -113,24 +114,45 @@ void inserer_pos_k(TypePtrListe *adr_tete, int val, int pos){
             afficher_erreur('P');
             return;
         }//sinon k==i, insertion en debut de liste
-        creation_elem(val);
+        p_nouv=creation_elem(val);
         if(k == 1){
-            inserer_en_tete(adr_tete,val);
+            inserer_en_tete(adr_liste,val);
             return;
         }//sinon k>1, insertion en fin de liste
-        TypePTrListe p_nouv;
         p_nouv -> suiv = NULL;
         p_prec -> suiv = p_nouv;
         return;
     }//sinon insertion en milieu de liste
-    creation_elem(val);
+    p_nouv=creation_elem(val);
     inserer_en_tete(&prec -> suiv, val);
+}
+
+void supprimer_en_tete(TypePtrListe *adr_liste){
+
+    if (adr_liste == NULL)
+    {
+        afficher_erreur('L');
+        return;
+    }
+
+    TypePtrListe *p = *adr_liste;
+    *adr_liste = p->suivant;
+    free(p);
 }
 
 /****************************************CORPS****************************************/
 
 int main()
 {
+    TypePtrListe *maListe = malloc(sizeof(TypePtrListe));
+
+    inserer_en_tete(maListe, 4);
+    inserr_en_tete(maListe, 8);
+    inserer_en_tete(maListe, 15);
+    supprimer_en_tete(maListe);
+
+    afficherListe(maListe);
+
     return 0;
 }
 
