@@ -202,16 +202,31 @@ void maximisation(int genotype[], int nb_ind){
     }
 }*/
 
-int tirage_alea(int vect[], int nb_tirage, int MAX){
+void tirage_alea(int vect[], int nb_tirage, int MAX){
 
 	int i = 0;
 
-	for(i=0; i<nb_tirage; i++){
-		vect[i] = rand() % MAX; //tirage entre 0 et max exclu
+	for(i = 0; i < nb_tirage; i++){
+		vect[i] = rand() % (MAX + 1); //+1 sinon MAX exclu
 		//printf("%d ",vect[i]);
 	}
 
-	return vect;
+	//return vect;
+}
+
+void tirage_loci_ambigu(int locus[], int taille_locus, int nb_loci_ambigu){
+
+	int i = 0;
+	int* pos_loci_ambigu = malloc((nb_loci_ambigu) * sizeof (int));
+    pos_loci_ambigu = {0};
+
+	for(i = 0; i < nb_loci_ambigu; i++){
+        pos_loci_ambigu[i] = rand() % (taille_locus +1)
+		locus[pos_loci_ambigu[i]] = 2;
+
+		//virer les doublons eventuels
+	}
+    free(pos_loci_ambigu);
 }
 
 void verif_doublon(int vect1[], int vect2[], int taille_geno){
@@ -219,31 +234,46 @@ void verif_doublon(int vect1[], int vect2[], int taille_geno){
 	int i = 0;
 	int similaire = 0;
 
-	for(i=0; i<nb_tirage; i++){
+	for(i = 0; i < taille_geno; i++){
 
 		if (vect1[i] == vect1[i]) similaire++;
 
 	}
 
 	if(similaire == taille_geno){
-        tirage_alea(genotype, taille_geno, 2);
+        tirage_alea(vect2, taille_geno, 2);
 	}
+	//afficherVect(vect1, taille_geno);
+	//afficherVect(vect2, taille_geno);
 
 }
 
-void creation_geno(int vect[], int nb_indiv, int taille_geno){
+void creation_geno(int vect[], int nb_indiv, int taille_geno, int nb_loci_ambigu){
 
-    int i;
+    int i, j;
+
+    int* genotype = malloc((taille_geno) * sizeof (int));
+
 
     for(i = 0; i <= nb_indiv; i++){
-        int* genotype = malloc((taille_geno) * sizeof (int));
-        tirage_alea(genotype, taille_geno, 2);
-        vect[i] = genotype;
-        printf("\nGenotype %d: ", i);
-        afficherVect(vect[i], taille_geno);
-    }
+        genotype = {0};
 
-    return 0;
+        tirage_alea(genotype, taille_geno, 1);
+
+        for(j = 0; j <= nb_indiv; j++){ //possibilite d optimiser pour eviter de comparer vect[i] avec lui meme
+        verif_doublon(vect[j], genotype, taille_geno); //complexite de type taille_geno^3 (3eme boucle for
+        // dans la fct), possibilite d optimiser en evitant une comparaison 2 a 2 mais plutot de type "diviser pour regner"
+        }
+
+        tirage_alea(pos_loci_ambigu, taille_geno);
+
+
+        vect[i] = genotype;
+
+        //printf("\nGenotype %d: ", i);
+        //afficherVect(vect[i], taille_geno);
+    }
+    free(genotype);
 }
 
 void afficherVect(int v[], int taille){
@@ -265,8 +295,12 @@ int main()
 
     int nb_indiv = 12, taille_genotype = 10;
     int* liste_geno = malloc((nb_indiv) * sizeof (int));
+    liste_geno = {0};
 
     creation_geno(liste_geno, nb_indiv, taille_genotype);
+    afficherVect(liste_geno[1], taille_genotype);
+    printf("\n");
+    verif_doublon(liste_geno[1], liste_geno[1], taille_genotype);
 
     return 0;
 }
