@@ -34,7 +34,7 @@ struct TypeCell{
 
 
 //Fonctions
-
+/*
 void afficher_erreur(char typeErreur){
     printf("Erreur: ");
     switch(typeErreur){
@@ -140,18 +140,107 @@ void supprimer_en_tete(TypePtrListe *adr_liste){
     free(p);
 }
 
+void inference_haplotype(int genotype[], int nb_iter_max, int seuil){
+
+    initialiser_freq_haplo(haplotype1[], nb_haplo1);
+    initialiser_freq_haplo(haplotype2[], nb_haplo2);
+    proba_geno(genotype[]);
+
+    //initialisation des variables locales
+    int convergence = 0, nb_etapes = 0, log_likehood = 0, freq_prec = 0, freq = 0, proba_preq = 0, proba = 0;
+    int log_like_prec = valeur_min; //valeur min a calculer
+
+    while(!convergence && nb_etapes <= nb_iter_max){
+        nb_etapes++;
+        maximisation();
+        log_likehood = estimation_exp();
+        convergence = (log_likehood - log_like_prec) < seuil;
+
+        if(!convergence){
+        log_like_prec = log_likehood;
+        freq_prec =  freq;
+        proba_prec = proba;
+        }
+    }
+}
+
+void initialiser_freq_haplo(int happlo[], int nb_haplo){
+
+    int i;
+
+    for (i = 0; i < nb_haplo; i++){
+        freq[i] = 1 / nb_haplo;
+        freq_prec[i] = freq[i];
+    }
+}
+
+void proba_geno(int genotype[]){
+
+    int i, f1, f2;
+
+    for (i = 0; i < nb_geno; i++){
+
+        for (i = 0; i < nb_haplo; i++){
+            f1 = freq1[i];
+            f2 = freq2[i];
+            if(haplo1 == haplo2) p_part = f1^2;
+            //sinon
+            p_part = 2 * f1 * f2;
+        }
+    }
+}
+
+void maximisation(int genotype[], int nb_ind){
+
+    for (i = 0; i < nb_haplo1; i++){
+
+        int freq = 0;
+
+        for (i = 0; i < nb_haplo; i++){
+            contrib = (freq_prec_h1[i] * freq_preq_h2[i] * nb_indiv_geno[i]) / (prob_prec[i] * nb_ind)
+            freq += contrib;
+    }
+}*/
+
+int tirage_alea(int vect[], int nb_tirage, int MAX){
+
+	int i = 0;
+
+	for(i=0; i<nb_tirage; i++){
+		vect[i] = rand() % MAX; //tirage entre 0 et max exclu
+		//printf("%d ",vect[i]);
+	}
+
+	return vect;
+}
+
+void afficherVect(int v[], int taille){
+
+    int i;
+
+    for (i = 0 ; i < taille ; i++)
+    {
+        printf("%d ", v[i]);
+    }
+    printf("\n");
+}
+
 /****************************************CORPS****************************************/
 
 int main()
 {
-    TypePtrListe *maListe = (TypePtrListe*) malloc(sizeof(TypePtrListe));
+    srand(time(NULL)); // initialisation de rand
 
-    inserer_en_tete(maListe, 4);
-    inserr_en_tete(maListe, 8);
-    inserer_en_tete(maListe, 15);
-    supprimer_en_tete(maListe);
+    int liste_geno[12], i;
+    int* liste_geno=malloc((nb_indiv)*sizeof (int));
 
-    afficherListe(maListe);
+    for(i = 0; i <= 12; i++){
+        int taille_geno = 10;
+        int* genotype=malloc((taille_geno)*sizeof (int));
+        tirage_alea(genotype, 10, 2);
+        printf("\nGenotype %d: ", i);
+        afficherVect(genotype, 10);
+    }
 
     return 0;
 }
