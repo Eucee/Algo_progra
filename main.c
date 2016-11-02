@@ -214,12 +214,29 @@ int tirage_alea(int vect[], int nb_tirage, int MAX){
 	return vect;
 }
 
+void verif_doublon(int vect1[], int vect2[], int taille_geno){
+
+	int i = 0;
+	int similaire = 0;
+
+	for(i=0; i<nb_tirage; i++){
+
+		if (vect1[i] == vect1[i]) similaire++;
+
+	}
+
+	if(similaire == taille_geno){
+        tirage_alea(genotype, taille_geno, 2);
+	}
+
+}
+
 void creation_geno(int vect[], int nb_indiv, int taille_geno){
 
     int i;
 
     for(i = 0; i <= nb_indiv; i++){
-        int* genotype=malloc((taille_geno) * sizeof (int));
+        int* genotype = malloc((taille_geno) * sizeof (int));
         tirage_alea(genotype, taille_geno, 2);
         vect[i] = genotype;
         printf("\nGenotype %d: ", i);
@@ -246,10 +263,10 @@ int main()
 {
     srand(time(NULL)); // initialisation de rand
 
-    int nb_indiv = 12;
+    int nb_indiv = 12, taille_genotype = 10;
     int* liste_geno = malloc((nb_indiv) * sizeof (int));
 
-    creation_geno(liste_geno, nb_indiv, 10);
+    creation_geno(liste_geno, nb_indiv, taille_genotype);
 
     return 0;
 }
