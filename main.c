@@ -214,6 +214,21 @@ int tirage_alea(int vect[], int nb_tirage, int MAX){
 	return vect;
 }
 
+void creation_geno(int vect[], int nb_indiv, int taille_geno){
+
+    int i;
+
+    for(i = 0; i <= nb_indiv; i++){
+        int* genotype=malloc((taille_geno) * sizeof (int));
+        tirage_alea(genotype, taille_geno, 2);
+        vect[i] = genotype;
+        printf("\nGenotype %d: ", i);
+        afficherVect(vect[i], taille_geno);
+    }
+
+    return 0;
+}
+
 void afficherVect(int v[], int taille){
 
     int i;
@@ -231,16 +246,10 @@ int main()
 {
     srand(time(NULL)); // initialisation de rand
 
-    int liste_geno[12], i;
-    int* liste_geno=malloc((nb_indiv)*sizeof (int));
+    int nb_indiv = 12;
+    int* liste_geno = malloc((nb_indiv) * sizeof (int));
 
-    for(i = 0; i <= 12; i++){
-        int taille_geno = 10;
-        int* genotype=malloc((taille_geno)*sizeof (int));
-        tirage_alea(genotype, 10, 2);
-        printf("\nGenotype %d: ", i);
-        afficherVect(genotype, 10);
-    }
+    creation_geno(liste_geno, nb_indiv, 10);
 
     return 0;
 }
